@@ -18,6 +18,27 @@ function App() {
       releaseDate: "2021-05-19",
     },
   ];
+  const [title, setTitle] = useState();
+  const [text, setText] = useState();
+  const [date, setDate] = useState();
+
+  const titleHandeler = (event) => {
+    setTitle(event.target.value);
+  };
+  const textHandeler = (event) => {
+    setText(event.target.value);
+  };
+  const dateHandeler = (event) => {
+    setDate(event.target.value);
+  };
+  const detailsHandeler = () => {
+    let filledData = {
+      title: title,
+      text: text,
+      date: date,
+    };
+    console.log(filledData);
+  };
 
   const [isloading, setIsLoading] = useState(false);
   const [movies, setmovies] = useState([]);
@@ -62,6 +83,18 @@ function App() {
   }
   return (
     <React.Fragment>
+      <section>
+        <span>Title</span>
+        <input onChange={titleHandeler} />
+        <br />
+        <span>Opening Text </span>
+        <input onChange={textHandeler} />
+        <br />
+        <span>Release date</span>
+        <input onChange={dateHandeler} />
+        <br />
+        <button onClick={detailsHandeler}>Add Movies</button>
+      </section>
       <section>
         <button onClick={clickHandeler}>Fetch Movies</button>
       </section>
