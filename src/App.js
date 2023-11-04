@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
@@ -18,10 +18,11 @@ function App() {
       releaseDate: "2021-05-19",
     },
   ];
+
   const [isloading, setIsLoading] = useState(false);
   const [movies, setmovies] = useState([]);
   const [error, setError] = useState(null);
-  async function clckHandeler() {
+  async function clickHandeler() {
     setIsLoading(true);
     setError(null);
     try {
@@ -46,18 +47,25 @@ function App() {
     }
     setIsLoading(false);
   }
-
+  useEffect(() => {
+    clickHandeler();
+  }, []);
+  let content = <p>Fount no movie</p>;
+  if (movies.length > 0) {
+    content = <MoviesList movies={movies} />;
+  }
+  if (error) {
+    content = <>{error}</>;
+  }
+  if (isloading) {
+    content = <p>Loading...</p>;
+  }
   return (
     <React.Fragment>
       <section>
-        <button onClick={clckHandeler}>Fetch Movies</button>
+        <button onClick={clickHandeler}>Fetch Movies</button>
       </section>
-      <section>
-        {!isloading && movies.length > 0 && <MoviesList movies={movies} />}
-        {isloading && movies.length === 0 && !error && <p>Found no movie</p>}
-        {isloading && <p>Loading</p>}
-        {isloading && <p>{error}</p>}
-      </section>
+      <section>{content}</section>
     </React.Fragment>
   );
 }
